@@ -1,0 +1,20 @@
+{
+    "name": "nikolays93/bootstraptemplates",
+    "type": "library",
+    "description": "Easy construct bootstrap components on php syntax.",
+    "keywords": ["bootstrap", "components", "html", "constructor"],
+    "authors": [
+        {
+            "name": "nikolays93",
+            "email": "nikolays93@ya.ru"
+        }
+    ],
+    "require": {
+    	"php": ">=5.4"
+    },
+    "autoload": {
+        "psr-0": {
+            "BootstrapTemplate": "src/"
+        }
+    },
+}
