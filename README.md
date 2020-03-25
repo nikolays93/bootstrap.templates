@@ -4,4 +4,9 @@ Easy construct bootstrap components on php syntax.
 
 #### Requirements ####
 
-PHP > 5.4
+PHP >= 5.4
+
+#### Modules ####
+
+- Tabs
+- Accordion
