@@ -2,8 +2,10 @@
 
 use BootstrapTemplate\BootstrapTemplate;
 
-require_once __DIR__ . '/../src/BootstrapTemplate.php';
-require_once __DIR__ . '/../src/Module/Accordion.php';
+if( ! is_file('../vendor/autoload.php') || ! require_once '../vendor/autoload.php' ) {
+	require_once __DIR__ . '/../src/BootstrapTemplate.php';
+	require_once __DIR__ . '/../src/Module/Accordion.php';
+}
 
 include __DIR__ . '/../fixtures/navs.php';
 
