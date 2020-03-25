@@ -14,9 +14,6 @@ PHP >= 5.4
 #### Install with composer ####
 Insert
 ```json
-"require": {
-  "nikolays93/bootstraptemplates": "dev-master"
-},
 "repositories": [
   {
     "type": "git",
@@ -24,7 +21,7 @@ Insert
   }
 ]
 ```
-to your composer.json and run `composer update` command.  
+to your composer.json and run `composer require nikolays93/bootstraptemplates:dev-master` command.  
 
 And you can use in your project as:
 ```php
