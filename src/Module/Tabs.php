@@ -12,7 +12,7 @@ class Tabs {
 			'id'          => 'nav-tabs',
 			'active'      => '',
 			'fade'        => true,
-			'active-class' => 'in active',
+			'active-class' => 'show active',
 		), $args);
 	}
 
