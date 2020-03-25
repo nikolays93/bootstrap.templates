@@ -8,41 +8,46 @@ class Accordion {
 
 	function __construct( $args = array() ) {
 		$this->args = array_merge(array(
-			'id'          => 'accordion',
-			'active'      => '',
-			'active-class' => 'in show',
+			'id'               => 'accordion',
+			'active'           => '',
+            'title-template'   => '<a %1$s>%2$s</a>',
+            'title-class'      => 'btn btn-link',
+            'title-active'     => 'active',
+            'content-template' => '<div %1$s>%2$s</div>',
+            'content-class'    => 'collapse',
+			'content-active'   => 'in show',
 		), $args);
 	}
 
 	private function addTitle( $name, $title, $active ) {
+        $target = $this->args['id'] . "-$name";
 		$attrs = array(
+			'id'            => $this->args['id'] . "-$name-heading",
+			'class'         => $this->args['title-class'],
+            'href'          => "#$target",
 			'data-toggle'   => "collapse",
-			'id'            => "$name-heading",
-			'class'         => "btn btn-link",
-			'href'          => "#$name",
-			'data-target'   => "#$name",
+			'data-target'   => "#$target",
 			'aria-controls' => $name,
 		);
 
-		if( $active ) {
-			$attrs['aria-expanded'] = "true";
-		}
+        if( $active ) {
+            $attrs['class'] .= ' ' . $this->args['title-active'];
+            $attrs['aria-expanded'] = "true";
+        }
 
 		array_walk($attrs, function( &$value, $key ) { $value = "$key=\"$value\""; });
-		array_push($this->content, sprintf('<a %s>%s</a>', implode(' ', $attrs), $title) . "\n");
+		array_push($this->content, sprintf($this->args['title-template'], implode(' ', $attrs), $title) . "\n");
 	}
 
 	private function addContent( $name, $title, $content, $active ) {
 		$attrs = array(
-			'id'              => $name,
-			'class'           => "collapse",
-			'aria-labelledby' => "$name-heading",
+			'id'              => $this->args['id'] . "-$name",
+			'class'           => $this->args['content-class'],
+			'aria-labelledby' => $this->args['id'] . "-$name-heading",
 			'data-parent'     => "#" . $this->args['id'],
 		);
 
-		if( $active ) {
-			$attrs['class'] .= ' ' . $this->args['active-class'];
-		}
+		if( $active ) $attrs['class'] .= ' ' . $this->args['content-active'];
 
 		ob_start();
 		if( is_callable($content) ) {
@@ -50,7 +55,7 @@ class Accordion {
 		}
 
 		array_walk($attrs, function( &$value, $key ) { $value = "$key=\"$value\""; });
-		array_push($this->content, sprintf('<div %s>%s</div>', implode(' ', $attrs), ob_get_clean()) . "\n");
+		array_push($this->content, sprintf($this->args['content-template'], implode(' ', $attrs), ob_get_clean()) . "\n");
 	}
 
 	public function addItem( $name, $title, $content ) {

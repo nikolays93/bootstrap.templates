@@ -9,47 +9,46 @@ class Tabs {
 
 	function __construct( $args = array() ) {
 		$this->args = array_merge(array(
-			'id'          => 'nav-tabs',
-			'active'      => '',
-			'fade'        => true,
-			'active-class' => 'show active',
+			'id'               => 'tabs',
+			'active'           => '',
+            'title-template'   => '<a %1$s>%2$s</a>',
+            'title-class'      => 'nav-item nav-link',
+            'title-active'     => 'active',
+            'content-template' => '<div %1$s>%2$s</div>',
+            'content-class'    => 'tab-pane fade',
+			'content-active'   => 'in show active',
 		), $args);
 	}
 
 	private function addTitle( $name, $title, $active ) {
+		$target = $this->args['id'] . "-$name";
 		$attrs = array(
+			'id'            => $this->args['id'] . "-$name-tab",
+			'class'         => $this->args['title-class'],
+			'href'          => "#$target",
 			'data-toggle'   => "tab",
-			'class'         => "nav-item nav-link",
-			'id'            => "nav-$name-tab",
-			'href'          => "#nav-$name",
-			'aria-controls' => "nav-$name",
+			'aria-controls' => $target,
 			'aria-selected' => "false",
 		);
 
 		if( $active ) {
-			$attrs['class'] .= ' active';
+			$attrs['class'] .= ' ' . $this->args['title-active'];
 			$attrs['aria-selected'] = "true";
 		}
 
 		array_walk($attrs, function( &$value, $key ) { $value = "$key=\"$value\""; });
-		array_push($this->navs, sprintf('<a %s>%s</a>', implode(' ', $attrs), $title) . "\n");
+		array_push($this->navs, sprintf($this->args['title-template'], implode(' ', $attrs), $title) . "\n");
 	}
 
 	private function addContent( $name, $title, $content, $active ) {
 		$attrs = array(
-			'class'           => "tab-pane",
-			'id'              => "nav-$name",
+			'id'              => $this->args['id'] . "-$name",
+			'class'           => $this->args['content-class'],
 			'role'            => "tabpanel",
-			'aria-labelledby' => "nav-$name-tab",
+			'aria-labelledby' => $this->args['id'] . "-$name-tab",
 		);
 
-		if($this->args['fade']) {
-			$attrs['class'] .= ' fade';
-		}
-
-		if( $active ) {
-			$attrs['class'] .= ' ' . $this->args['active-class'];
-		}
+		if( $active ) $attrs['class'] .= ' ' . $this->args['content-active'];
 
 		ob_start();
 		if( is_callable($content) ) {
@@ -57,7 +56,7 @@ class Tabs {
 		}
 
 		array_walk($attrs, function( &$value, $key ) { $value = "$key=\"$value\""; });
-		array_push($this->content, sprintf('<div %s>%s</div>', implode(' ', $attrs), ob_get_clean()) . "\n");
+		array_push($this->content, sprintf($this->args['content-template'], implode(' ', $attrs), ob_get_clean()) . "\n");
 	}
 
 	public function addItem( $name, $title, $content ) {
@@ -70,10 +69,8 @@ class Tabs {
 
 	public function render() {
 		?>
-		<nav>
-			<div class="nav nav-tabs" id="<?= $this->args['id'] ?>" role="tablist">
-				<?= implode("\n", $this->navs) ?>
-			</div>
+		<nav class="nav nav-tabs" id="<?= $this->args['id'] ?>" role="tablist">
+			<?= implode("\n", $this->navs) ?>
 		</nav>
 
 		<div class="tab-content" id="<?= $this->args['id'] ?>-content">
