@@ -2,17 +2,17 @@
 
 Easy construct bootstrap components on php syntax.
 
-#### Requirements ####
+### Requirements ###
 
 PHP >= 5.4
 
-#### Modules ####
+### Modules ###
 
 - Tabs
 - Accordion
 
-#### Install with composer ####
-Insert
+### Install with composer ###
+add this repository in your composer.json
 ```json
 "repositories": [
   {
@@ -21,18 +21,19 @@ Insert
   }
 ]
 ```
-to your composer.json and run `composer require nikolays93/bootstraptemplates:dev-master` command.  
+..and run `composer require nikolays93/bootstraptemplates:dev-master` command.  
 
-And you can use in your project as:
+Start in your app as:
 ```php
 <?php
 
 require 'vendor/autoload.php';
 
 use BootstrapTemplate\BootstrapTemplate;
+
 ```
 
-#### How to use ####
+### How to use ###
 
 See [examples](https://github.com/nikolays93/bootstrap.templates/tree/master/example)
 
