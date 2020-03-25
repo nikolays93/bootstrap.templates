@@ -19,6 +19,7 @@ class BootstrapTemplate {
 		return self::initObject('\BootstrapTemplate\Module\Tabs', func_get_args());
 	}
 
-	static function includeFile() {
+	static function navAccordion() {
+		return self::initObject('\BootstrapTemplate\Module\Accordion', func_get_args());
 	}
 }

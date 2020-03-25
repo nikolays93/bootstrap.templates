@@ -2,50 +2,43 @@
 
 namespace BootstrapTemplate\Module;
 
-class Tabs {
+class Accordion {
 	private $args;
-	private $navs = array();
 	private $content = array();
 
 	function __construct( $args = array() ) {
 		$this->args = array_merge(array(
-			'id'          => 'nav-tabs',
+			'id'          => 'accordion',
 			'active'      => '',
-			'fade'        => true,
-			'active-class' => 'in active',
+			'active-class' => 'in show',
 		), $args);
 	}
 
 	private function addTitle( $name, $title, $active ) {
 		$attrs = array(
-			'data-toggle'   => "tab",
-			'class'         => "nav-item nav-link",
-			'id'            => "nav-$name-tab",
-			'href'          => "#nav-$name",
-			'aria-controls' => "nav-$name",
-			'aria-selected' => "false",
+			'data-toggle'   => "collapse",
+			'id'            => "$name-heading",
+			'class'         => "btn btn-link",
+			'href'          => "#$name",
+			'data-target'   => "#$name",
+			'aria-controls' => $name,
 		);
 
 		if( $active ) {
-			$attrs['class'] .= ' active';
-			$attrs['aria-selected'] = "true";
+			$attrs['aria-expanded'] = "true";
 		}
 
 		array_walk($attrs, function( &$value, $key ) { $value = "$key=\"$value\""; });
-		array_push($this->navs, sprintf('<a %s>%s</a>', implode(' ', $attrs), $title) . "\n");
+		array_push($this->content, sprintf('<a %s>%s</a>', implode(' ', $attrs), $title) . "\n");
 	}
 
 	private function addContent( $name, $title, $content, $active ) {
 		$attrs = array(
-			'class'           => "tab-pane",
-			'id'              => "nav-$name",
-			'role'            => "tabpanel",
-			'aria-labelledby' => "nav-$name-tab",
+			'id'              => $name,
+			'class'           => "collapse",
+			'aria-labelledby' => "$name-heading",
+			'data-parent'     => "#" . $this->args['id'],
 		);
-
-		if($this->args['fade']) {
-			$attrs['class'] .= ' fade';
-		}
 
 		if( $active ) {
 			$attrs['class'] .= ' ' . $this->args['active-class'];
@@ -70,13 +63,7 @@ class Tabs {
 
 	public function render() {
 		?>
-		<nav>
-			<div class="nav nav-tabs" id="<?= $this->args['id'] ?>" role="tablist">
-				<?= implode("\n", $this->navs) ?>
-			</div>
-		</nav>
-
-		<div class="tab-content" id="<?= $this->args['id'] ?>-content">
+		<div class="accordion" id="<?= $this->args['id'] ?>">
 			<?= implode("\n", $this->content) ?>
 		</div>
 		<?php
