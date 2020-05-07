@@ -67,9 +67,9 @@ class Tabs {
 		return $this;
 	}
 
-	public function render() {
+	public function render( $tablistClass = 'tabs' ) {
 		?>
-		<nav class="nav nav-tabs" id="<?= $this->args['id'] ?>" role="tablist">
+		<nav class="nav nav-<?= $tablistClass ?>" id="<?= $this->args['id'] ?>" role="tablist">
 			<?= implode("\n", $this->navs) ?>
 		</nav>
 
